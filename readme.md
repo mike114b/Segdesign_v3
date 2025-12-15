@@ -34,11 +34,10 @@
 ```shell
 dos2unix hmmer_env.sh
 chmod +x hmmer_env.sh
-./hmmer_env.sh
-```
+./hmmer_env.sh```
 3. 若安装遇到问题，请根据自身电脑配置自行调整。
 
-####补充说明（dssp 4.5.5 问题修复）
+#### 补充说明（dssp 4.5.5 问题修复）
 dssp 4.5.5 存在兼容问题，涉及环境（hmmer、SE3nv、esmfold_report）需按以下步骤处理：
 - 运行 conda env list 查看虚拟环境所在路径。
 - 进入 <环境名称>/share/libcifpp 目录。
