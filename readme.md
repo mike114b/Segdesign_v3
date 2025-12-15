@@ -35,11 +35,12 @@
 dos2unix hmmer_env.sh
 chmod +x hmmer_env.sh
 ./hmmer_env.sh
-若安装遇到问题，请根据自身电脑配置自行调整。
+3. 若安装遇到问题，请根据自身电脑配置自行调整。
+
 ####补充说明（dssp 4.5.5 问题修复）
 dssp 4.5.5 存在兼容问题，涉及环境（hmmer、SE3nv、esmfold_report）需按以下步骤处理：
-运行 conda env list 查看虚拟环境所在路径。
-进入 <环境名称>/share/libcifpp 目录。
-找到 omponents.cif.gz 压缩包并解压。
-将解压后的文件命名为 omponents.cif，保留在 libcifpp 目录下。
-删除原压缩包 omponents.cif.gz。
+- 运行 conda env list 查看虚拟环境所在路径。
+- 进入 <环境名称>/share/libcifpp 目录。
+- 找到 omponents.cif.gz 压缩包并解压。
+- 将解压后的文件命名为 omponents.cif，保留在 libcifpp 目录下。
+- 删除原压缩包 omponents.cif.gz。
