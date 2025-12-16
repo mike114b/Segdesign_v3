@@ -25,7 +25,7 @@ echo "conda install biopython -y"
 conda install biopython -y
 echo "conda install -c conda-forge dssp=4.5.5 -y"
 conda install -c conda-forge dssp=4.5.5 -y
-echo "conda install -c conda-forge pandas"
-conda install -c conda-forge pandas
-echo "conda install conda-forge::biotite"
-conda install conda-forge::biotite
+echo "conda install -c conda-forge pandas -y"
+conda install -c conda-forge pandas -y
+echo "conda install conda-forge::biotite -y"
+conda install conda-forge::biotite -y
