@@ -44,3 +44,7 @@ conda install biopython -y
 echo "安装mmseqs2"
 echo "conda install -c conda-forge -c bioconda mmseqs2 -y"
 conda install -c conda-forge -c bioconda mmseqs2 -y
+
+echo "安装pandas库"
+echo "conda install pandas=2.3.1 -y"
+conda install pandas=2.3.1 -y

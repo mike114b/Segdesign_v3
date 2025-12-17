@@ -1,0 +1,80 @@
+global parameters:
+   anaconda_path: /opt/software/anaconda3  #anaconda安装位置
+   work_dir: work_test
+
+hmmer:
+     env_name:
+         hmmer
+     args:
+        input_pdb: Dusp4.pdb
+        select_chain: A
+        output_folder: ~/Segdesign_v2/work_test2
+        bitscore: 0.3
+        n_iter: 5
+        database: uniprot_sprot.fasta
+        cpu: 10
+        #minimum_sequence_coverage: 50
+        #minimum_column_coverage: 50
+        identity: 0.5
+        method: entropy
+        threshold: 0.6
+
+rf_diffusion:
+    env_name:
+         SE3nv
+    args:
+       dssp_analyse:
+         - yes
+       threshold: 0.1
+       run_inference_path : ./RFdiffusion/scripts/run_inference.py
+       inference.input_pdb : ./Dusp4.pdb                                             #输入原始 PDB 文件路径
+       inference.output_prefix : ./output_rfdiffusion/Dusp4              #输出文件前缀
+       inference.num_designs : 2                                                         #生成的设计数量
+       contigmap.contigs : '[A1-394]'                                                    #待处理的蛋白链
+       contigmap.inpaint_str : '[A346-394]'                                           # 结构重构范围（与sheet约束范围一致）
+       #contigmap.inpaint_seq : [A346-394]                                          # 同时优化序列+结构（删除则保留原始序列）
+       contigmap.inpaint_str_helix : '[A346-394]'                                   # 核心：约束
+       diffuser.partial_T : 50                                                               # 采样步数，平衡结构规整度
+
+MPNN:
+     env_name:
+         mpnn
+     args:
+        cluster_analyse:
+          - yes
+        threads: 8
+        min_seq_id: 0.8
+        #cov_mode: 0
+        #coverage: 0.8
+        mmseqs_path: mmseqs
+        parse_multiple_chains_path: ./ProteinMPNN/helper_scripts/parse_multiple_chains.py   #解析 PDB 链结构
+        assign_fixed_chains_path: ./ProteinMPNN/helper_scripts/assign_fixed_chains.py
+        make_fixed_positions_dict_path: ./ProteinMPNN/helper_scripts/make_fixed_positions_dict.py
+        protein_mpnn_run_path: ./ProteinMPNN/protein_mpnn_run.py
+        pdb_path: work_test/rfdiffusion_out/filter_results
+        output_folder: ./outputs_mpnn    # 输出目录
+        chain_list:  A
+        position_list: A346-394       #或  1 2 3 4 5 6 7 8 9 10, 3 4 5 6 7 8
+        num_seq_per_target:  100        # 每个 PDB 生成 20 条设计序列
+        sampling_temp: 0.1                # 采样温度（0.1→保守设计，适配局部结构兼容性）
+        seed: 37                                # 随机种子（结果可重复）
+        top_percent: 50               #根据百分比筛选global_score靠前的序列，默认为前20%
+
+
+esmfold:
+   env_name:
+       esmfold
+   args:
+      input_folder: work_test/mpnn_out/results
+      output_folder: out
+      #plddt_threshold: 70
+
+esmfold_report:
+  env_name:
+    esmfold_report
+  args:
+    fasta_folder: work_test/mpnn_out/results
+    esmfold_folder: work_test/esmfold_out
+    original_protein_chain_path: work_test/hmmer_out/target_chain_pdb/Dusp4_A.pdb
+    plddt_threshold: 70
+    seq_range_str: 346-394

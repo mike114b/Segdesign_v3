@@ -100,3 +100,5 @@ echo "pip install --no-build-isolation ."
 pip install . --no-build-isolation
 echo "pip uninstall deepspeed -y"
 pip uninstall deepspeed -y
+
+pip install numpy==1.22.4

@@ -321,10 +321,20 @@ def global_work_dir_handling(yaml_data):
     work_dir = os.path.expanduser(yaml_data['global parameters']["work_dir"])
     if not os.path.exists(work_dir):
         os.makedirs(work_dir, exist_ok=True)
-    yaml_data['hmmer']['args']['output_folder'] = os.path.join(work_dir, "hmmer_out")
-    yaml_data['rf_diffusion']['args']['inference.output_prefix'] = os.path.join(work_dir, "rfdiffusion_out/sample")
-    yaml_data['MPNN']['args']['output_folder'] = os.path.join(work_dir, "mpnn_out")
-    yaml_data['esmfold']['args']['output_folder'] = os.path.join(work_dir, "esmfold_out")
+    if 'hmmer' in yaml_data:
+        yaml_data['hmmer']['args']['output_folder'] = os.path.join(work_dir, "hmmer_out")
+    if 'rf_diffusion' in yaml_data:
+        yaml_data['rf_diffusion']['args']['inference.output_prefix'] = os.path.join(work_dir, "rfdiffusion_out/sample")
+    if 'MPNN' in yaml_data:
+        yaml_data['MPNN']['args']['output_folder'] = os.path.join(work_dir, "mpnn_out")
+    if 'esmfold' in yaml_data:
+        yaml_data['esmfold']['args']['output_folder'] = os.path.join(work_dir, "esmfold_out")
+    if 'esmfold_report' in yaml_data:
+        yaml_data['esmfold_report']['args']['esmfold_folder'] = os.path.join(work_dir, "esmfold_out")
+    if 'dssp' in yaml_data:
+        yaml_data['dssp']['args']['output_folder'] = os.path.join(work_dir, "dssp_out")
+    if 'cluster_analysis' in yaml_data:
+        yaml_data['cluster_analysis']['args']['output_folder'] = os.path.join(work_dir, "cluster_analysis_out")
     return yaml_data
 
 
@@ -341,7 +351,7 @@ if __name__ == "__main__":
 
     # 2. 添加必选参数：yaml文件路径
     parser.add_argument(
-        "--yaml_file",  # 参数名（位置参数，无需--前缀）
+        "yaml_file",  # 参数名（位置参数，无需--前缀）
         type=str,
         default="parameter.yaml",
         help="YAML文件的路径（相对路径或绝对路径）"

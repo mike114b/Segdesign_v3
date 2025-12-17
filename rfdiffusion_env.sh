@@ -96,12 +96,16 @@ echo "进入虚拟环境..."
 echo "conda activate SE3nv"
 conda activate SE3nv
 
-echo "安装pytorch 2.4.0"
-echo "pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124"
-pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+echo "安装cudatoolkit 11.8"
+echo "conda install -y cudatoolkit=11.8 -c conda-forge -y"
+conda install -y cudatoolkit=11.8 -c conda-forge -y
 
-echo "pip install dgl -f https://data.dgl.ai/wheels/cu121/repo.html"
-pip install dgl -f https://data.dgl.ai/wheels/cu121/repo.html
+echo "安装pytorch 2.1.0"
+echo "pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118"
+pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
+
+echo "pip install  dgl -f https://data.dgl.ai/wheels/torch-2.1/cu118/repo.html"
+pip install  dgl -f https://data.dgl.ai/wheels/torch-2.1/cu118/repo.html
 
 echo "pip install hydra-core pyrsistent"
 pip install hydra-core pyrsistent
@@ -137,3 +141,7 @@ pip install -e .
 echo "安装dssp"
 echo "conda install -c conda-forge dssp=4.5.5 -y"
 conda install -c conda-forge dssp=4.5.5 -y
+
+echo "安装pandas库"
+echo "conda install pandas numpy=1.26.4 -y"
+conda install pandas numpy=1.26.4 -y

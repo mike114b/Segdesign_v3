@@ -351,7 +351,7 @@ def dict_list_to_csv(dict_list, header_list, csv_file_path):
         num = ''.join([c for c in name if c.isdigit()])
         return int(num) if num else 0
 
-    row_names = sorted(dict_list[0].keys(), key=sort_key)
+    row_names = dict_list[0].keys()#sorted(dict_list[0].keys(), key=sort_key)
 
     # 构建每行数据（自动适配所有字典）
     csv_data = []
@@ -466,10 +466,15 @@ def data_organization(
             seq_range_str = seq_range_str,
         )
         filtered_seq = {**dict_seq, **filtered_seq}
+        #print(filtered_seq)
         filtered_subseq = {**dict_seq_range, **filtered_subseq}
+        #print(filtered_subseq)
         filtered_gs = {**dict_gs, **filtered_gs}
+        #print(filtered_gs)
         s_dict = {**dict_s, **s_dict}
+        #print(s_dict)
         plddt_dict = {**dict_plddt, **plddt_dict}
+        #print(plddt_dict)
     range_dict = {key: seq_range_str for key in filtered_seq}
     s3_dict = ss8_to_ss3(s_dict)
     dict_list = [filtered_seq, range_dict, filtered_subseq, s_dict, s3_dict, filtered_gs, plddt_dict]
@@ -478,7 +483,7 @@ def data_organization(
     dict_list_to_csv(
         dict_list=dict_list,
         header_list=header_list,
-        csv_file_path='out/filter_result.csv')
+        csv_file_path=f'{output_folder}/filter_result.csv')
     return
 
 def main():

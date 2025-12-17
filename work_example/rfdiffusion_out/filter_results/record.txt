@@ -1,0 +1,10 @@
+Protein source path: work_example/rfdiffusion_out/dssp_csv_file/sample_1.csv
+Identification region: 346-394
+Proportion of secondary structure(['H', 'G', 'I']): 0.00%
+Exceeds threshold(10.00%): no
+
+Protein source path: work_example/rfdiffusion_out/dssp_csv_file/sample_0.csv
+Identification region: 346-394
+Proportion of secondary structure(['H', 'G', 'I']): 24.49%
+Exceeds threshold(10.00%): yes
+

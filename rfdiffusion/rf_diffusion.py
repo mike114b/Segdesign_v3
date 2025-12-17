@@ -7,6 +7,9 @@ import argparse
 import re
 from pathlib import Path
 import os
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))  # rfdiffusion/目录
+PARENT_DIR = os.path.dirname(ROOT_DIR)  # 上级目录（包含dssp/和rfdiffusion/）
+sys.path.append(PARENT_DIR)  # 把上级目录加入搜索路径
 from pdbrepair import fix_pdb_file
 from dssp.dssp import run_dssp
 from dssp.dsspcsv import dssp_to_csv
@@ -116,9 +119,12 @@ def run_rfdiffusion(args, unknown):
         if unknown[i].startswith('--'):
             key = unknown[i][2:]
             if i + 1 < len(unknown):
-                params[key] = unknown[i + 1]
+                v = unknown[i + 1].strip()
+
+                params[key] = v
     cmd = ['python', script_path]
     for key, value in params.items():
+        print('value:',value)
         cmd.append(f"{key}={value}")
 
     # Print command for verification
@@ -229,7 +235,7 @@ def dssp_analyse(path, start_res, end_res, target_ss, threshold = 0.6):
     dssp_generation(f'{path_}/{fix_pdb_folder}', f'{path_}/{dssp_folder}')
     dsspcsv(f'{path_}/{dssp_folder}', f'{path_}/{dssp_csv_folder}')
     process_protein_files(f'{path_}/{dssp_csv_folder}', name_prefix,
-                          f'{path_}/filter_results', start_res, end_res, target_ss, threshold)
+                          f'{path_}/filter_results', start_res, end_res, target_ss, threshold, f'{path_}/fix_pdb')
 
     return
 
@@ -272,7 +278,7 @@ def check_ss_proportion(csv_path, start_res, end_res, target_ss_list, threshold)
 
     return exceeds_threshold, proportion, total_residues
 
-def process_protein_files(csv_folder, name_prefix,output_folder, start_res, end_res, target_ss, threshold):
+def process_protein_files(csv_folder, name_prefix,output_folder, start_res, end_res, target_ss, threshold, fixpdb_folder):
     """
     处理多个蛋白质文件，记录符合条件的蛋白质
 
@@ -327,8 +333,9 @@ def process_protein_files(csv_folder, name_prefix,output_folder, start_res, end_
                 f.write(f'\n')
 
     for file_path in positive_hits:
-        file_name = str(file_path).rsplit('/',1)[1]
-        shutil.copy(file_path, f'{output_folder}/{file_name}')
+        filename = str(file_path).rsplit('/',1)[1]
+        file_name = filename.rsplit('.',1)[0]
+        shutil.copy(f"{fixpdb_folder}/{file_name}.pdb", f'{output_folder}/{file_name}.pdb')
     return
 
 
